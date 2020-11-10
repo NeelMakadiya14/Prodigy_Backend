@@ -1,6 +1,8 @@
 const monogoose = require("mongoose");
+require("dotenv").config();
 
 const connectDB = async () => {
+    console.log(process.env.MONGO_URI);
   try {
     const conn = await monogoose.connect(process.env.MONGO_URI, {
       useNewUrlParser: true,
