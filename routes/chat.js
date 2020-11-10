@@ -1,5 +1,5 @@
 const express = require("express");
-const Chat = require("../Models/Chat");
+const Chat = require("../Models/chat");
 const errors = require("restify-errors");
 const router = express.Router();
 
