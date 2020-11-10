@@ -90,7 +90,7 @@ io.on('connection', socket => {
 app.use(cors())
 
 app.get("/",(req,res,next)=>{
-    res.send(<h1>Hello</h1>);
+    res.send(Hello);
 });
 
 //Routes
