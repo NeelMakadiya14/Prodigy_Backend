@@ -1,18 +1,33 @@
 require("dotenv").config();
 const path=require('path');
 const express = require("express");
-const http = require("http");
 const app = express();
-var cors = require('cors')
-const server = http.createServer(app);
-const socket = require("socket.io");
-const io = socket(server);
-const dotnev = require("dotenv");
+const socket=require('socket.io');
+const http = require('http')
+const cors = require('cors')
 const connectDB = require("./db.js");
 const morgan = require("morgan");
 const bodyParser = require("body-parser");
 
-dotnev.config();
+//Allow CORS
+app.use(cors());
+
+// Socket.io integration with express
+const server = http.createServer(app);
+
+const port=process.env.PORT || 5000;
+server.listen(port, () => console.log(`server is running on port ${port}`));
+
+// Creating the sockets
+var io =socket(server,{
+    cors:{
+    origin: process.env.ORIGIN,
+    methods: ["GET", "POST"],
+    credentials: true
+  }
+});
+
+
 
 //Logging
 if (process.env.NODE_ENV === "Development") {
@@ -22,14 +37,17 @@ if (process.env.NODE_ENV === "Development") {
 connectDB();
 
 
+app.use((req,res,next)=>{
+    res.setHeader("Access-Control-Allow-Origin","http://localhost:3000")
+    res.setHeader("Access-Control-Allow-Headers", "Content-Type Authorization");
+    res.setHeader("Access-Control-Allow-Credentials",true);
+    next();
+});
+
 // parse application/x-www-form-urlencoded
 app.use(bodyParser.urlencoded({ extended: false }));
 // parse application/json
 app.use(bodyParser.json());
-
-const port=process.env.PORT || 5000;
-
-server.listen(port, () => console.log(`server is running on port ${port}`));
 
 const chat_users={};
 const chat_sockTOroom={};
@@ -86,11 +104,10 @@ io.on('connection', socket => {
 
 });
 
-//Allow CORS
-app.use(cors())
+
 
 app.get("/",(req,res,next)=>{
-    res.send(Hello);
+    res.send("Hello");
 });
 
 //Routes
