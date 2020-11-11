@@ -19,13 +19,7 @@ const port=process.env.PORT || 5000;
 server.listen(port, () => console.log(`server is running on port ${port}`));
 
 // Creating the sockets
-var io =socket(server,{
-    cors:{
-    origin: process.env.ORIGIN,
-    methods: ["GET", "POST"],
-    credentials: true
-  }
-});
+var io =socket(server);
 
 
 
@@ -53,7 +47,6 @@ const chat_users={};
 const chat_sockTOroom={};
 
 io.on('connection', socket => {
-
     //For Chat
         socket.on('join chat room',userDetail=>{
             console.log("Joined Chat room");
