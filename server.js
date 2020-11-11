@@ -30,14 +30,6 @@ if (process.env.NODE_ENV === "Development") {
 
 connectDB();
 
-
-app.use((req,res,next)=>{
-    res.setHeader("Access-Control-Allow-Origin","http://localhost:3000")
-    res.setHeader("Access-Control-Allow-Headers", "Content-Type Authorization");
-    res.setHeader("Access-Control-Allow-Credentials",true);
-    next();
-});
-
 // parse application/x-www-form-urlencoded
 app.use(bodyParser.urlencoded({ extended: false }));
 // parse application/json
