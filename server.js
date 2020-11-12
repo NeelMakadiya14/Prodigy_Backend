@@ -4,24 +4,32 @@ const express = require("express");
 const app = express();
 const socket=require('socket.io');
 const http = require('http')
-const cors = require('cors')
+//const cors = require('cors')
 const connectDB = require("./db.js");
 const morgan = require("morgan");
 const bodyParser = require("body-parser");
 
 //Allow CORS
-app.use(cors());
+//app.use(cors());
 
-// Socket.io integration with express
+
+const app_url = (process.env.NODE_ENV==="production" ? "https://gentle-tundra-54505.herokuapp.com" : "http://localhost:3000");
+console.log(process.env.NODE_ENV,app_url);
+
+app.use((req, res, next) => {
+    res.setHeader("Access-Control-Allow-Origin",  app_url);
+    res.setHeader("Access-Control-Allow-Headers", 'Origin,X-Requested-With,Content-Type,Accept,content-type,application/json');
+//    res.setHeader("Access-Control-Request-Headers",'Origin,X-Requested-With,Content-Type,Accept,content-type,application/json');
+    res.setHeader('Access-Control-Allow-Methods', 'GET,PUT,POST,DELETE,OPTIONS');
+    res.setHeader("Access-Control-Allow-Credentials", true);
+    next();
+});
+
+
 const server = http.createServer(app);
 
 const port=process.env.PORT || 5000;
 server.listen(port, () => console.log(`server is running on port ${port}`));
-
-// Creating the sockets
-var io =socket(server);
-
-
 
 //Logging
 if (process.env.NODE_ENV === "Development") {
@@ -37,6 +45,10 @@ app.use(bodyParser.json());
 
 const chat_users={};
 const chat_sockTOroom={};
+
+// Socket.io integration with express
+const io =socket(server);
+
 
 io.on('connection', socket => {
     //For Chat
