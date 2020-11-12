@@ -11,7 +11,7 @@
     "mongoose": "^5.10.13",
     "morgan": "^1.10.0",
     "restify-errors": "^8.0.2",
-    "socket.io": "^2.3.0"
+    "socket.io": "2.3.0"
   },
   "scripts": {
     "start": "npm install && node server.js"
