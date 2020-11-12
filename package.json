@@ -10,10 +10,12 @@
     "express": "^4.17.1",
     "mongoose": "^5.10.13",
     "morgan": "^1.10.0",
-    "restify-errors": "^8.0.2",
-    "socket.io": "^2.3.0"
+    "restify-errors": "^8.0.2"
   },
   "scripts": {
     "start": "PROD=true node server.js"
+  },
+  "devDependencies": {
+    "socket.io": "^2.3.0"
   }
 }
