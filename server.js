@@ -47,7 +47,7 @@ const chat_users={};
 const chat_sockTOroom={};
 
 // Socket.io integration with express
-const io =socket(server);
+const io =socket(server, { serveClient: false });
 
 
 io.on('connection', socket => {
