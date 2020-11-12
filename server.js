@@ -4,27 +4,27 @@ const express = require("express");
 const app = express();
 const socket=require('socket.io');
 const http = require('http')
-//const cors = require('cors')
+const cors = require('cors')
 const connectDB = require("./db.js");
 const morgan = require("morgan");
 const bodyParser = require("body-parser");
 const Chat = require("./Models/chat");
 
 //Allow CORS
-//app.use(cors());
+app.use(cors());
 
 
 const app_url = (process.env.NODE_ENV==="production" ? "https://gentle-tundra-54505.herokuapp.com" : "http://localhost:3000");
 console.log(process.env.NODE_ENV,app_url);
 
-app.use((req, res, next) => {
-    res.setHeader("Access-Control-Allow-Origin",  app_url);
-    res.setHeader("Access-Control-Allow-Headers", 'Origin,X-Requested-With,Content-Type,Accept,content-type,application/json');
-//    res.setHeader("Access-Control-Request-Headers",'Origin,X-Requested-With,Content-Type,Accept,content-type,application/json');
-    res.setHeader('Access-Control-Allow-Methods', 'GET,PUT,POST,DELETE,OPTIONS');
-    res.setHeader("Access-Control-Allow-Credentials", true);
-    next();
-});
+// app.use((req, res, next) => {
+//     res.setHeader("Access-Control-Allow-Origin",  app_url);
+//     res.setHeader("Access-Control-Allow-Headers", 'Origin,X-Requested-With,Content-Type,Accept,content-type,application/json');
+// //    res.setHeader("Access-Control-Request-Headers",'Origin,X-Requested-With,Content-Type,Accept,content-type,application/json');
+//     res.setHeader('Access-Control-Allow-Methods', 'GET,PUT,POST,DELETE,OPTIONS');
+//     res.setHeader("Access-Control-Allow-Credentials", true);
+//     next();
+// });
 
 
 const server = http.createServer(app);
@@ -112,5 +112,6 @@ app.get("/",(req,res,next)=>{
 
 //Routes
 app.use("/chat", require("./routes/chat"));
+app.use("/user_doc", require("./routes/user_doc"));
 
 
