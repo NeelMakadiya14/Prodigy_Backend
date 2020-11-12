@@ -8,6 +8,7 @@ const http = require('http')
 const connectDB = require("./db.js");
 const morgan = require("morgan");
 const bodyParser = require("body-parser");
+const Chat = require("./Models/chat");
 
 //Allow CORS
 //app.use(cors());
@@ -49,7 +50,6 @@ const chat_sockTOroom={};
 // Socket.io integration with express
 const io =socket(server, { serveClient: false });
 
-
 io.on('connection', socket => {
     //For Chat
         socket.on('join chat room',userDetail=>{
@@ -80,6 +80,9 @@ io.on('connection', socket => {
 
         socket.on('send msg',(data)=>{
             console.log("Sent data : ",data);
+            Chat.create(data).then(()=>{
+                console.log("Data Added to DB");
+            });
             chat_users[chat_sockTOroom[socket.id]].forEach(element => {
                 io.to(element.socketID).emit('recevied msg',data);
             });
