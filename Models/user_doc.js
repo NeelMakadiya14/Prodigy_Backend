@@ -1,7 +1,7 @@
 const mongoose = require("mongoose");
-//const timestamp = require("mongoose-timestamp");
+// const timestamp = require("mongoose-timestamp");
 
-const chatSchema = new mongoose.Schema({
+const userSchema = new mongoose.Schema({
   userName: {
     type: String,
     required: true,
@@ -17,18 +17,16 @@ const chatSchema = new mongoose.Schema({
     required: true,
     trim: true,
   },
-  doc_name: {
-    type: String,
-    required: true,
-    trim: true,
-  },
-  doc_id: {
-    type: String,
-    required: true,
-    trim: true,
+  doc: {
+    type: [
+      {
+        name: String,
+        id: String,
+      },
+    ],
   },
 });
 
-//chatSchema.plugin(timestamp);
-const user_doc = mongoose.model("User_Doc", chatSchema);
+// docSchema.plugin(timestamp);
+const user_doc = mongoose.model("User_Doc", userSchema);
 module.exports = user_doc;
